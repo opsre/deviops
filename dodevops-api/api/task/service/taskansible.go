@@ -784,7 +784,8 @@ func (s *TaskAnsibleServiceImpl) StartJob(c *gin.Context, taskID uint) {
 			if task.Type == 3 {
 				logFileName = "deploy-simple.sh"
 			} else {
-				logFileName = work.EntryFileName
+				// 使用Base获取文件名，防止EntryFileName包含路径导致日志创建目录失败
+				logFileName = filepath.Base(work.EntryFileName)
 			}
 			absLogPath := filepath.Join(absLogDir, fmt.Sprintf("%s.log", logFileName))
 			// 用于数据库存储的相对路径
@@ -1352,7 +1353,9 @@ func (s *TaskAnsibleServiceImpl) resolvePlaybookPaths(projectDir string, paths [
 			return nil, fmt.Errorf("playbook不存在: %s", p)
 		}
 
-		result = append(result, full)
+		// 注意：这里应该只返回相对路径，而不是包含项目目录的完整路径
+		// 因为后续 createSubTasksFromPlaybooks 会再次拼接项目目录
+		result = append(result, clean)
 	}
 	return result, nil
 }
