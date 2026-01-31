@@ -11478,6 +11478,10 @@ paths:
         in: formData
         name: variables
         type: string
+      - description: playbook路径JSON数组(type=2时使用，如["site.yml","deploy/app.yml"])
+        in: formData
+        name: playbooks
+        type: string
       - description: playbook文件(type=1时上传)
         in: formData
         name: playbooks

@@ -10,6 +10,7 @@ import (
 // Manager 调度器管理器
 type Manager struct {
 	syncScheduler *SyncScheduler
+	taskScheduler *TaskScheduler
 	mutex         sync.RWMutex
 	running       bool
 }
@@ -24,6 +25,7 @@ func GetManager() *Manager {
 	once.Do(func() {
 		instance = &Manager{
 			syncScheduler: NewSyncScheduler(),
+			taskScheduler: NewTaskScheduler(),
 			running:       false,
 		}
 	})
@@ -47,6 +49,11 @@ func (m *Manager) Start() error {
 		return err
 	}
 
+	// 启动 Ansible 定时任务调度器
+    if err := m.taskScheduler.Start(); err != nil {
+        return err
+    }
+
 	m.running = true
 	log.Println("调度器管理器启动成功")
 	return nil
@@ -66,6 +73,8 @@ func (m *Manager) Stop() {
 
 	// 停止定时同步调度器
 	m.syncScheduler.Stop()
+	// 停止 Ansible 定时任务调度器
+	m.taskScheduler.Stop()
 
 	m.running = false
 	log.Println("调度器管理器已停止")
@@ -129,4 +138,9 @@ func (m *Manager) GetSyncSchedulerStats() map[string]interface{} {
 	stats := m.syncScheduler.GetJobStats()
 	stats["status"] = "running"
 	return stats
+}
+
+// GetTaskScheduler 获取Ansible任务调度器
+func (m *Manager) GetTaskScheduler() *TaskScheduler {
+    return m.taskScheduler
 }

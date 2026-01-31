@@ -1,6 +1,6 @@
 # 项目启动端口
 server:
-  address: 127.0.0.1:8000
+  address: 192.168.1.156:5700
   # debug模式
   model: debug
   # release模式
@@ -10,11 +10,11 @@ server:
 # 数据库配置
 db:
   dialects: mysql
-  host: 192.168.1.1
-  port: 3306
-  db: gin-api
+  host: 192.168.1.156
+  port: 3307
+  db: devops
   username: root
-  password: 1111111
+  password: devops@2025
   charset: utf8
   # 最大空闲数
   maxIdle: 50
@@ -24,8 +24,8 @@ db:
 # redis配置
 redis:
 #  address: 127.0.0.1:6379
-  address: 192.168.1.1:6379
-  password: "123456"
+  address: 192.168.1.156:6379
+  password: "devops@2025"
 
 # 图片地址和ip
 imageSettings:
@@ -46,9 +46,9 @@ log:
 # 监控配置
 monitor:
   prometheus:
-    url: "http://192.168.1.1:9090"
+    url: "http://192.168.1.227:30901"
   pushgateway:
     url: "http://192.168.1.1:9091"
   agent:
-    heartbeat_server_url: "http://192.168.1.1:8000/api/v1/monitor/agent/heartbeat"
+    heartbeat_server_url: "http://192.168.1.156:5700/api/v1/monitor/agent/heartbeat"
     heartbeat_token: "agent-heartbeat-token-2024"

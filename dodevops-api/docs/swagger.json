@@ -7689,6 +7689,12 @@
                         "in": "formData"
                     },
                     {
+                        "type": "string",
+                        "description": "playbook路径JSON数组(type=2时使用，如[\"site.yml\",\"deploy/app.yml\"])",
+                        "name": "playbooks",
+                        "in": "formData"
+                    },
+                    {
                         "type": "file",
                         "description": "playbook文件(type=1时上传)",
                         "name": "playbooks",

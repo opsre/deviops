@@ -1,0 +1,8 @@
+.vscode
+.idea
+task
+logs
+config.yaml
+*.log
+*.tmp
+*.bak
